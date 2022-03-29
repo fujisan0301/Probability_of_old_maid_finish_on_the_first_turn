@@ -1,16 +1,23 @@
-#include <iostream>
+ï»¿#include <iostream>
+#include <string>
 using namespace std;
 
 void Init(int* array, int length);
 bool Check(int* array, int length);
 
-//54 - 1AƒWƒW‚ğ”²‚¢‚½–‡”
+//54 - 1ã€ã‚¸ã‚¸ã‚’æŠœã„ãŸæšæ•°
 const int CARD_MAX = 53;
 
 const int PLAYER_0 = 0;
 const int PLAYER_1 = 1;
 const int UNDISTRIBUTION = 2;
 const int NUM_OF_TYPES = 4;
+
+const char* SPADE = "ã‚¹ãƒšãƒ¼ãƒ‰";
+const char* HEART = "ãƒãƒ¼ãƒˆ";
+const char* DIA = "ãƒ€ã‚¤ãƒ¤";
+const char* CLUB = "ã‚¯ãƒ©ãƒ–";
+const char* BABA = "ãƒãƒ";
 
 int main() {
 	srand(time(NULL));
@@ -31,7 +38,6 @@ int main() {
 				while (1) {
 					int r = rand() % CARD_MAX;
 					if (checker[r] == UNDISTRIBUTION) {
-						//if(r == 52) cout << r << ", " << (oddTurn ? "PLAYER_0" : "PLAYER_1") << ", \n";
 						checker[r] = (oddTurn ? PLAYER_0 : PLAYER_1);
 						oddTurn = !oddTurn;
 						break;
@@ -40,18 +46,37 @@ int main() {
 			}
 		} while (!Check(checker, sizeof(checker) / sizeof(checker[0])));
 
-		cout << "s" << n << "‰ñ–ÚI—¹\n";
+		cout << "è©¦è¡Œ" << n + 1 << "å›ç›®çµæœ\n";
 		for (int i = 0; i < CARD_MAX; i++) {
-			cout << "“à–ó" << i << " : " << checker[i] << ", ";
+			string str = "";
+			if (i != CARD_MAX - 1) {
+				switch (i % NUM_OF_TYPES)
+				{
+				case 0: str += SPADE;  break;
+				case 1: str += HEART; break;
+				case 2: str += DIA; break;
+				case 3: str += CLUB; break;
+				}
+				for (int e = 0; ; e++) {
+					if (i < (e + 1) * NUM_OF_TYPES) {
+						str += to_string(e + 1);
+						break;
+					}
+				}
+			}
+			else {
+				str += BABA;
+			}
+			cout << str << " : PLAYER_" << checker[i] << " \t";
 			if (i != 0 && (i + 1) % NUM_OF_TYPES == 0) cout << "\n";
 		}
-		cout << "\n";
+		cout << "\n\n";
 		average += count;
 	}
 
 	int result = average / NUM_OF_EXECUTINS;
-	cout << "ƒgƒ‰ƒ“ƒv”z•z‚É‡‚ğI—¹‚³‚¹‚é‚É‚Í•½‹Ï" << result << "‰ñ‚Ìs‚ª•K—v‚Å‚·B(" << NUM_OF_EXECUTINS << "‰ñ‚ÌsŒ‹‰Ê)\n";
-	cout << "Šm—¦‚Í" << (1.0 / (double)result) << "\n";
+	cout << "ãƒˆãƒ©ãƒ³ãƒ—é…å¸ƒæ™‚ã«è©¦åˆã‚’çµ‚äº†ã•ã›ã‚‹ã«ã¯å¹³å‡" << result << "å›ã®è©¦è¡ŒãŒå¿…è¦ã§ã™ã€‚(" << NUM_OF_EXECUTINS << "å›ã®è©¦è¡Œçµæœ)\n";
+	cout << "ç¢ºç‡ã¯" << (1.0 / (double)result) << "\n";
 }
 
 void Init(int* array, int length) {
@@ -71,7 +96,7 @@ bool Check(int* array, int length) {
 
 		if (count_0 + count_1 == NUM_OF_TYPES) {
 			int cond = NUM_OF_TYPES / 2;
-			if (count_0 == cond && count_1 == cond) {
+			if ((count_0 == cond && count_1 == cond) || (count_0 == NUM_OF_TYPES || count_1 == NUM_OF_TYPES)) {
 				count_0 = 0;
 				count_1 = 0;
 				continue;

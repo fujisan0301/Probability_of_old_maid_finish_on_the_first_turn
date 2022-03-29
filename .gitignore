@@ -22,3 +22,5 @@ BABA/x64/Debug/BABA.tlog/link.read.1.tlog
 BABA/x64/Debug/BABA.tlog/link.write.1.tlog
 x64/Debug/BABA.exe
 x64/Debug/BABA.pdb
+.vs/
+BABA/x64/Debug/main.new.obj.enc
